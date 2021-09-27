@@ -8,8 +8,7 @@ export class Users extends Component {
                 {this.props.users.map((user) => (
                     <UserItem key={user.id} user={user}></UserItem>
                 ))}
-                /*get data from users.js*/
-            </div>
+            </div> /*get data from App.js*/
         );
     }
 }
