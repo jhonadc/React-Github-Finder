@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Navbar from './components/layout/Navbar';
 import Users from './components/users/Users';
+import Search from './components/users/Search';
 import axios from 'axios';
 import './App.css';
 
@@ -20,11 +21,28 @@ class App extends Component {
         this.setState({ users: res.data, loading: false });
     }
 
+    searchUsers = async (text) => {
+        this.setState({ loading: true });
+
+        const res = await axios.get(
+            `https://api.github.com/search/users?q=${text}&client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}&client_secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`
+        );
+
+        this.setState({
+            users: res.data.items,
+            loading: false,
+        }); /* notice the .items*/
+    };
+    /* will receive the text value passed from SearchBar and Search component here 
+    I could also comment the componentDidMount function, so no users will appear when 
+    loading the page but only when some is searched */
+
     render() {
         return (
             <div className='App'>
                 <Navbar title='Github Finder'></Navbar>
                 <div className='container'>
+                    <Search searchUsers={this.searchUsers} />
                     <Users
                         loading={this.state.loading}
                         users={this.state.users}
