@@ -37,12 +37,18 @@ class App extends Component {
     I could also comment the componentDidMount function, so no users will appear when 
     loading the page but only when some is searched */
 
+    clearUsers = () => this.setState({ users: [], loading: false });
+
     render() {
         return (
             <div className='App'>
                 <Navbar title='Github Finder'></Navbar>
                 <div className='container'>
-                    <Search searchUsers={this.searchUsers} />
+                    <Search
+                        searchUsers={this.searchUsers}
+                        clearUsers={this.clearUsers}
+                        showClear={this.state.users.length > 0 ? true : false}
+                    />
                     <Users
                         loading={this.state.loading}
                         users={this.state.users}
